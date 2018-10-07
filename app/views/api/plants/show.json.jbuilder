@@ -1,0 +1,1 @@
+json.partial! @plant, partial: 'plant', as: :plant
