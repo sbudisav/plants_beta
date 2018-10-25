@@ -35,7 +35,7 @@ class Api::PlantsController < ApplicationController
     if @plant.save
       render "show.json.jbuilder"
     else
-      render json: {errors: @product.errors.full_messages}, status: :unprocessable_entity
+      render json: {errors: @plant.errors.full_messages}, status: :unprocessable_entity
     end
   end
 

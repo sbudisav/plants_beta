@@ -2,6 +2,7 @@ class Api::UserPlantsController < ApplicationController
   before_action :authenticate_user
 
   def index
+
     @user_plants = UserPlant.where(user_id: current_user.id)
     render 'index.json.jbuilder'
   end
@@ -15,7 +16,30 @@ class Api::UserPlantsController < ApplicationController
                                 sun_placement: params[:sun_placement]
                                 )
 
-    @user_plant.save
+    if @user_plant.save
+      render "index.json.jbuilder"
+    else
+      render json: {errors: @user_plant.errors.full_messages}, status: :unprocessable_entity
+    end
 
+  end
+
+  def update
+    @user_plant = UserPlant.find(params[:id])
+    @user_plant.nickname = params[:nickname] || @user_plant.nickname
+    @user_plant.last_watered = params[:last_watered] || @user_plant.last_watered
+    @user_plant.sun_placement = params[:sun_placement] || @sun_placement
+
+    if @user_plant.save
+      render "index.json.jbuilder"
+    else
+      render json: {errors: @user_plant.errors.full_messages}, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @user_plant = UserPlant.find(params[:id])
+    @user_plant.destroy
+    render json: {status: "Plant removed"}
   end
 end

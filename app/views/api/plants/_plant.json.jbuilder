@@ -6,6 +6,6 @@ json.description plant.description
 json.sun_pref plant.sun_pref
 json.water_freq plant.water_freq
 
-# json.images do
-#   json.array! plant.images, partial: 'api/images/image', as: :image
-# end
+json.images do
+  json.array! plant.images, partial: 'api/images/image', as: :image
+end
