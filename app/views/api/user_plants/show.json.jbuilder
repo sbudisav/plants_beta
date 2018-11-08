@@ -1,0 +1,1 @@
+json.partial! @user_plants, partial: 'user_plant', as: :user_plant

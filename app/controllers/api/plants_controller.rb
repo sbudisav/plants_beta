@@ -27,7 +27,7 @@ class Api::PlantsController < ApplicationController
   def update 
     @plant = Plant.find(params[:id])
     @plant.name = params[:name] || @plant.name
-    @plant.bionominal = params[:bionominal] || @plant.bioinominal 
+    @plant.bionominal = params[:bionominal] || @plant.bionominal 
     @plant.description = params[:description] || @plant.description
     @plant.sun_pref = params[:sun_pref] || @plant.sun_pref
     @plant.water_freq = params[:water_freq] || @plant.water_freq
