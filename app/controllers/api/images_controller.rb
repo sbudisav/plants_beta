@@ -15,4 +15,14 @@ class Api::ImagesController < ApplicationController
       render json: {errors: @image.errors.full_messages}, status: :unprocessable_entity
     end
   end
+
+  def update 
+    @image = Image.find(params[:id])
+    @image.url = params[:url] || @image.url
+    if @image.save
+      render "index.json.jbuilder"
+    else
+      render json: {errors: @images.errors.full_messages}, status: :unprocessable_entity
+    end
+  end
 end
