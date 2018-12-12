@@ -2,7 +2,7 @@ class UserPlant < ApplicationRecord
   has_one_attached :image
   belongs_to :plant 
   belongs_to :user 
-  require 'date'
+  require 'date' 
 
   
   enum sun_placement: {low: 1, med: 2, high: 3}
@@ -39,4 +39,5 @@ class UserPlant < ApplicationRecord
       return out
     end
   end
+
 end

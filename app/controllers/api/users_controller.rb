@@ -1,7 +1,5 @@
 class Api::UsersController < ApplicationController
 
-require 'net/http'
-
   def create
     user = User.new(
       username: params[:username],
@@ -16,26 +14,21 @@ require 'net/http'
     end
   end
 
+  def show
+    @user = User.find(params[:id])
+    @user.username = @user.username
+    @user.location = @user.location
+    render 'show.json.jbuilder'
+  end
+
   def update
     @user = User.find(params[:id])
     @user.location = params[:location] || @user.location
+    if @user.save
+      render "show.json.jbuilder"
+    else 
+      render json: {errors: @user.errors.full_messages}, status: :unprocessable_entity
+    end
   end
 
-  def get_humidity 
-    humidity = 0
-    status = 0
-    city = ""
-    url = "http://api.openweathermap.org/data/2.5/weather?zip=#{location},us,units=imperial&APPID=#{ENV['HUMIDITY_API_KEY']}"
-    uri = URI(URI.encode(url))
-    response = Net::HTTP.get(uri)
-    json = JSON.parse(response)
-    if json.key?('cod')
-      status = json['cod']
-    end
-    if status == '200' || status == 200
-      humidity = json['list'][0]['main']['humidity']
-      city = json['city']['name']
-    end
-    humidity: humidity
-  end
 end
