@@ -3,6 +3,7 @@ class UserPlant < ApplicationRecord
   belongs_to :plant 
   belongs_to :user 
   require 'date' 
+  attr_reader :message
 
   
   enum sun_placement: {low: 1, med: 2, high: 3}
@@ -32,12 +33,47 @@ class UserPlant < ApplicationRecord
     till = next_water.to_date - Date.today
     out = till.to_i
     if sun_placement === "high"
-      return (out - 1)
-    elsif sun_placement === "low"
-      return (out +1)
-    else 
-      return out
+      out = out - 1
+    else sun_placement === "low"
+      out = out + 1
     end
+    if user.humidity
+      if user.humidity < 50
+        out = out - 1
+      else user.humidity > 90
+        out = out + 1
+      end
+    end
+    puts "**********************************"
+    puts "Day until next water (negative is bad)"
+    puts out
+    puts "**********************************"
+    puts "ALL USER PLANTS SHOULD BE DISPLAYED HERE"
+    puts plant.name
+
+    trouble_plants = []
+    # if days_till < -14
+    #   trouble_plants << "#{plant.nickname} the #{plant.name}"
+    # end
+    # puts trouble_plants
+    return out
+  end
+
+  def warning_text
+    trouble_plants = []
+
+    # if days_till < -14
+    #   trouble_plants << "#{plant.nickname} the #{plant.name}"
+    # end
+    # if trouble_plants.length >= 1
+    #   trouble_plants = "The following plants are over 2 weeks overdue for water! We reccomend watering them as soon as possible!"
+    # end
+    client = Twilio::REST::Client.new
+    client.messages.create({
+      from: Rails.application.twilio_phone_number,
+      to: '17192425869',
+      body: message_body
+    })
   end
 
 end
