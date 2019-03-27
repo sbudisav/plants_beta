@@ -15,7 +15,7 @@ class Api::UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
+    @user = User.find(params[:id])  
     @user.username = @user.username
     @user.location = @user.location
     render 'show.json.jbuilder'

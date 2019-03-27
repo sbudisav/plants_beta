@@ -3,7 +3,7 @@ class Api::UserPlantsController < ApplicationController
 
   def index
     @user_plants = current_user.user_plants.order(:created_at)
-    render 'index.json.jbuilder'
+    render 'index.json.jbuilder' 
   end
 
   def show

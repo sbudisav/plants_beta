@@ -44,18 +44,20 @@ class UserPlant < ApplicationRecord
         out = out + 1
       end
     end
+
     puts "**********************************"
     puts "Day until next water (negative is bad)"
     puts out
     puts "**********************************"
     puts "ALL USER PLANTS SHOULD BE DISPLAYED HERE"
     puts plant.name
-
+  end
+  def trouble_plants
     trouble_plants = []
-    # if days_till < -14
-    #   trouble_plants << "#{plant.nickname} the #{plant.name}"
-    # end
-    # puts trouble_plants
+    if days_till < -14
+     trouble_plants << "#{plant.nickname} the #{plant.name}"
+    end
+    puts trouble_plants
     return out
   end
 
